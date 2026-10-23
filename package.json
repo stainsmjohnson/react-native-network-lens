@@ -1,6 +1,6 @@
 {
   "name": "react-native-network-lens",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "In-app HTTP network inspector for React Native with a tabbed request viewer, collapsible JSON tree, search and zero dependencies",
   "main": "./lib/module/index.js",
   "types": "./lib/typescript/src/index.d.ts",

@@ -15,17 +15,7 @@
   "files": [
     "src",
     "lib",
-    "android",
-    "ios",
-    "cpp",
-    "*.podspec",
-    "react-native.config.js",
-    "!ios/build",
-    "!android/build",
-    "!android/gradle",
-    "!android/gradlew",
-    "!android/gradlew.bat",
-    "!android/local.properties",
+    "!lib/typescript/example",
     "!**/__tests__",
     "!**/__fixtures__",
     "!**/__mocks__",
@@ -42,8 +32,20 @@
   },
   "keywords": [
     "react-native",
+    "network",
+    "logger",
+    "inspector",
+    "http",
+    "xhr",
+    "fetch",
+    "axios",
+    "debug",
+    "devtools",
+    "json-viewer",
     "ios",
-    "android"
+    "android",
+    "network-logger",
+    "network-lens"
   ],
   "repository": {
     "type": "git",
@@ -80,14 +82,14 @@
     "prettier": "^3.9.10",
     "react": "19.3.0",
     "react-native": "0.88.0",
-    "react-native-builder-bob": "^0.44.1",
+    "react-native-builder-bob": "^0.43.2",
     "release-it": "^21.1.1",
     "turbo": "^2.11.10",
     "typescript": "^6.0.3"
   },
   "peerDependencies": {
-    "react": "*",
-    "react-native": "*"
+    "react": ">=19.0.0",
+    "react-native": ">=0.83.0"
   },
   "workspaces": [
     "example"
@@ -171,5 +173,6 @@
       "release-it"
     ],
     "version": "0.64.0"
-  }
+  },
+  "sideEffects": false
 }

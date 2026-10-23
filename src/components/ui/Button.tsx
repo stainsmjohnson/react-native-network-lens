@@ -8,6 +8,10 @@ import {
 } from 'react-native';
 import { useTheme } from '../../theme';
 
+// Object form keeps compatibility with React Native versions before numeric hitSlop.
+const HIT_SLOP_SMALL = { top: 6, bottom: 6, left: 6, right: 6 };
+const HIT_SLOP = { top: 8, bottom: 8, left: 8, right: 8 };
+
 interface TextButtonProps {
   label: string;
   onPress?: () => void;
@@ -31,7 +35,7 @@ export const TextButton = ({
       accessibilityRole="button"
       disabled={disabled}
       onPress={onPress}
-      hitSlop={6}
+      hitSlop={HIT_SLOP_SMALL}
       style={({ pressed }) => [
         styles.button,
         {
@@ -79,7 +83,7 @@ export const IconButton = ({
       accessibilityLabel={accessibilityLabel}
       disabled={disabled}
       onPress={onPress}
-      hitSlop={8}
+      hitSlop={HIT_SLOP}
       style={({ pressed }) => [
         styles.icon,
         active && { backgroundColor: theme.colors.primary },

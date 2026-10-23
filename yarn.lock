@@ -9458,8 +9458,8 @@ __metadata:
     turbo: "npm:^2.11.10"
     typescript: "npm:^6.0.3"
   peerDependencies:
-    react: ">=19.0.0"
-    react-native: ">=0.83.0"
+    react: ">=18.0.0"
+    react-native: ">=0.69.0"
   dependenciesMeta:
     lefthook:
       built: true

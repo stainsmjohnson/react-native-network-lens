@@ -155,8 +155,8 @@ const styles = StyleSheet.create({
     paddingLeft: 12,
     letterSpacing: 0.5,
   },
-  chips: { paddingRight: 12, gap: 6 },
-  chip: { paddingVertical: 4, paddingHorizontal: 10 },
+  chips: { paddingRight: 12 },
+  chip: { paddingVertical: 4, paddingHorizontal: 10, marginRight: 6 },
   clear: {
     alignSelf: 'flex-end',
     marginRight: 12,

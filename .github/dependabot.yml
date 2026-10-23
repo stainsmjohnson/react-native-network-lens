@@ -7,6 +7,15 @@ updates:
     groups:
       dev-dependencies:
         dependency-type: development
+    ignore:
+      # Pinned to the example app's React Native release; bumped by hand together.
+      - dependency-name: react
+      - dependency-name: react-native
+      - dependency-name: "@react-native/*"
+      - dependency-name: "@types/react"
+      # Major upgrades of tooling need config changes; handle them deliberately.
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
   - package-ecosystem: github-actions
     directory: /
     schedule:

@@ -81,10 +81,12 @@ const RequestDetails = ({ request, onClose, copyToClipboard }: Props) => {
             label={request.method}
             color={methodColor(theme, request.method)}
             filled
+            style={styles.headerPill}
           />
           <Pill
             label={statusLabel(request)}
             color={statusColor(theme, request.status, failed)}
+            style={styles.headerPill}
           />
           <Text
             style={[styles.summary, { color: theme.colors.textMuted }]}
@@ -292,21 +294,21 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
-  headerRow: { flexDirection: 'row', alignItems: 'center', gap: 8 },
+  headerRow: { flexDirection: 'row', alignItems: 'center' },
+  headerPill: { marginRight: 8 },
   summary: { flex: 1, fontSize: 12, fontVariant: ['tabular-nums'] },
   url: { fontSize: 14, marginTop: 8, lineHeight: 19 },
   gql: { fontSize: 12, marginTop: 4, fontWeight: '600' },
   tabs: { marginTop: 10 },
   overview: { paddingBottom: 24 },
-  sectionActions: { flexDirection: 'row', gap: 6 },
-  smallButton: { paddingVertical: 3, paddingHorizontal: 8 },
+  sectionActions: { flexDirection: 'row' },
+  smallButton: { paddingVertical: 3, paddingHorizontal: 8, marginLeft: 6 },
   exportRow: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: 8,
     paddingVertical: 8,
   },
-  exportButton: { paddingVertical: 8 },
+  exportButton: { paddingVertical: 8, marginRight: 8, marginBottom: 8 },
   footer: { textAlign: 'center', fontSize: 11, marginTop: 20 },
 });
 

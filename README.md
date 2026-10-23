@@ -34,7 +34,8 @@ actually usable on a phone:
   the inspector in a modal. One line, done.
 - **Light / dark / auto themes**, cURL export, HAR export, share full request.
 - **Zero dependencies**, pure TypeScript, no native code. Works with the New
-  Architecture and React Native **0.83+**.
+  Architecture and the old one. Supports React Native **0.69+** (React 18+);
+  CI runs the example app on the latest release.
 
 ## Installation
 

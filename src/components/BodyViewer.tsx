@@ -127,17 +127,27 @@ const BodyViewer = ({
             <TextButton
               label="Expand"
               onPress={() => treeRef.current?.expandAll()}
+              style={styles.toolButton}
             />
             <TextButton
               label="Collapse"
               onPress={() => treeRef.current?.collapseAll()}
+              style={styles.toolButton}
             />
           </>
         )}
         {copyToClipboard && body.kind !== 'binary' && (
-          <TextButton label="Copy" onPress={() => copyToClipboard(body.text)} />
+          <TextButton
+            label="Copy"
+            onPress={() => copyToClipboard(body.text)}
+            style={styles.toolButton}
+          />
         )}
-        <TextButton label="Share" onPress={() => share(body.text)} />
+        <TextButton
+          label="Share"
+          onPress={() => share(body.text)}
+          style={styles.toolButton}
+        />
       </View>
       {body.kind !== 'binary' && (
         <SearchInput
@@ -227,9 +237,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 12,
     paddingTop: 10,
-    gap: 6,
   },
   modeSwitch: { width: 130 },
+  toolButton: { marginLeft: 6 },
   spacer: { flex: 1 },
   search: { marginHorizontal: 12, marginTop: 8 },
   meta: { fontSize: 12, flexShrink: 1 },

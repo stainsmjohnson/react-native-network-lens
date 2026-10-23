@@ -260,5 +260,7 @@ export const MAX_VALUE_CHARS = 400;
 
 export const displayValue = (value: unknown): string => {
   if (typeof value === 'string') return `"${value}"`;
+  if (Array.isArray(value)) return '[]'; // only empty arrays reach here
+  if (value && typeof value === 'object') return '{}'; // only empty objects reach here
   return primitiveText(value);
 };

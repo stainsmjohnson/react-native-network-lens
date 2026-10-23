@@ -1,6 +1,7 @@
 import { describe, expect, it } from '@jest/globals';
 import {
   allPaths,
+  displayValue,
   collapsedPreview,
   flattenJson,
   getAtPath,
@@ -113,6 +114,16 @@ describe('searchJson', () => {
       '$.meta.count',
     ]);
     expect(searchJson(sample, '  ')).toEqual([]);
+  });
+});
+
+describe('displayValue', () => {
+  it('renders empty containers as {} and [] instead of [object Object]', () => {
+    expect(displayValue({})).toBe('{}');
+    expect(displayValue([])).toBe('[]');
+    expect(displayValue('x')).toBe('"x"');
+    expect(displayValue(null)).toBe('null');
+    expect(displayValue(3)).toBe('3');
   });
 });
 

@@ -147,7 +147,9 @@
   "release-it": {
     "git": {
       "commitMessage": "chore: release ${version}",
-      "tagName": "v${version}"
+      "tagName": "v${version}",
+      "requireCleanWorkingDir": true,
+      "requireBranch": "main"
     },
     "npm": {
       "publish": true
@@ -159,8 +161,16 @@
       "@release-it/conventional-changelog": {
         "preset": {
           "name": "angular"
-        }
+        },
+        "infile": "CHANGELOG.md"
       }
+    },
+    "hooks": {
+      "before:init": [
+        "yarn lint",
+        "yarn typecheck",
+        "yarn test"
+      ]
     }
   },
   "create-react-native-library": {

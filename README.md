@@ -1,6 +1,14 @@
 # react-native-network-lens
 
+[![npm version](https://img.shields.io/npm/v/react-native-network-lens.svg)](https://www.npmjs.com/package/react-native-network-lens)
+[![CI](https://github.com/stainsmjohnson/react-native-network-lens/actions/workflows/ci.yml/badge.svg)](https://github.com/stainsmjohnson/react-native-network-lens/actions/workflows/ci.yml)
+[![license](https://img.shields.io/npm/l/react-native-network-lens.svg)](./LICENSE)
+
 In-app HTTP inspector for React Native, built for small screens.
+
+| Request list | JSON tree | Search | Raw view |
+| --- | --- | --- | --- |
+| ![Request list](docs/list.png) | ![JSON tree](docs/tree.png) | ![Search](docs/search.png) | ![Raw view](docs/raw.png) |
 
 A modern take on `react-native-network-logger`: the same zero-dependency XHR
 capture (so `fetch`, `axios`, Apollo, etc. are all covered), with a UI that is
@@ -168,6 +176,14 @@ The library patches `XMLHttpRequest.prototype` (`open`, `setRequestHeader`,
 never break a request. Captured requests live in a single store on
 `globalThis`, which survives Fast Refresh, and React reads it through
 `useSyncExternalStore`. There is no native code, so nothing to link.
+
+## Security
+
+The inspector keeps captured headers and bodies in memory, including
+authorization tokens and cookies, and lets the user share or export them.
+Ship it behind `__DEV__` or an internal flag only, and use `ignoredHosts` /
+`ignoredPatterns` for endpoints that must never be captured. See
+[SECURITY.md](SECURITY.md) for details and how to report issues.
 
 ## Migrating from `react-native-network-logger`
 

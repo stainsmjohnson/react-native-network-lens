@@ -17,6 +17,8 @@ interface TextButtonProps {
   onPress?: () => void;
   disabled?: boolean;
   active?: boolean;
+  /** Text-only button in the primary colour, for navigation actions like Back. */
+  plain?: boolean;
   style?: StyleProp<ViewStyle>;
   textStyle?: StyleProp<TextStyle>;
 }
@@ -26,6 +28,7 @@ export const TextButton = ({
   onPress,
   disabled,
   active,
+  plain,
   style,
   textStyle,
 }: TextButtonProps) => {
@@ -39,9 +42,11 @@ export const TextButton = ({
       style={({ pressed }) => [
         styles.button,
         {
-          backgroundColor: active
-            ? theme.colors.primary
-            : theme.colors.surfaceAlt,
+          backgroundColor: plain
+            ? 'transparent'
+            : active
+              ? theme.colors.primary
+              : theme.colors.surfaceAlt,
         },
         disabled ? styles.disabled : pressed && styles.pressed,
         style,
@@ -50,7 +55,13 @@ export const TextButton = ({
       <Text
         style={[
           styles.label,
-          { color: active ? theme.colors.onPrimary : theme.colors.text },
+          {
+            color: plain
+              ? theme.colors.primary
+              : active
+                ? theme.colors.onPrimary
+                : theme.colors.text,
+          },
           textStyle,
         ]}
       >

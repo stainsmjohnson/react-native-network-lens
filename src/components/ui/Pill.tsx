@@ -14,6 +14,7 @@ interface Props {
   style?: StyleProp<ViewStyle>;
 }
 
+/** Fixed-height badge so filled and outlined variants align on one row. */
 export const Pill = ({ label, color, filled, small, style }: Props) => (
   <View
     style={[
@@ -39,15 +40,23 @@ export const Pill = ({ label, color, filled, small, style }: Props) => (
 
 const styles = StyleSheet.create({
   pill: {
+    height: 24,
+    minWidth: 44,
+    paddingHorizontal: 8,
     borderWidth: 1,
     borderRadius: 6,
-    paddingHorizontal: 6,
-    paddingVertical: 2,
+    alignItems: 'center',
+    justifyContent: 'center',
     alignSelf: 'flex-start',
   },
-  pillSmall: { paddingHorizontal: 4, paddingVertical: 1, borderRadius: 4 },
+  pillSmall: {
+    height: 20,
+    minWidth: 40,
+    paddingHorizontal: 6,
+    borderRadius: 5,
+  },
   outline: { backgroundColor: 'transparent' },
-  text: { fontSize: 12, fontWeight: '700', letterSpacing: 0.3 },
-  textSmall: { fontSize: 11 },
+  text: { fontSize: 12, lineHeight: 14, fontWeight: '700', letterSpacing: 0.3 },
+  textSmall: { fontSize: 11, lineHeight: 13 },
   textFilled: { color: '#ffffff' },
 });

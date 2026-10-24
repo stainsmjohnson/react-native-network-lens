@@ -75,8 +75,22 @@ const RequestDetails = ({ request, onClose, copyToClipboard }: Props) => {
           },
         ]}
       >
-        <View style={styles.headerRow}>
-          <TextButton label="‹ Back" onPress={onClose} style={styles.back} />
+        <View style={styles.navRow}>
+          <TextButton
+            label="‹ Back"
+            onPress={onClose}
+            plain
+            style={styles.back}
+            textStyle={styles.backLabel}
+          />
+          <Text
+            style={[styles.summary, { color: theme.colors.textMuted }]}
+            numberOfLines={1}
+          >
+            {summary}
+          </Text>
+        </View>
+        <View style={styles.pillRow}>
           <Pill
             label={request.method}
             color={methodColor(theme, request.method)}
@@ -86,14 +100,7 @@ const RequestDetails = ({ request, onClose, copyToClipboard }: Props) => {
           <Pill
             label={statusLabel(request)}
             color={statusColor(theme, request.status, failed)}
-            style={styles.headerPill}
           />
-          <Text
-            style={[styles.summary, { color: theme.colors.textMuted }]}
-            numberOfLines={1}
-          >
-            {summary}
-          </Text>
         </View>
         <Pressable
           onPress={() => setUrlExpanded((v) => !v)}
@@ -289,10 +296,17 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
-  headerRow: { flexDirection: 'row', alignItems: 'center' },
+  navRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginLeft: -8,
+  },
+  back: { paddingHorizontal: 8, paddingVertical: 4 },
+  backLabel: { fontSize: 16 },
+  pillRow: { flexDirection: 'row', alignItems: 'center', marginTop: 6 },
   headerPill: { marginRight: 8 },
-  back: { marginRight: 10, paddingHorizontal: 8 },
-  summary: { flex: 1, fontSize: 12, fontVariant: ['tabular-nums'] },
+  summary: { flexShrink: 1, fontSize: 12, fontVariant: ['tabular-nums'] },
   url: { fontSize: 14, marginTop: 8, lineHeight: 19 },
   gql: { fontSize: 12, marginTop: 4, fontWeight: '600' },
   tabs: { marginTop: 10 },

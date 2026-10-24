@@ -112,7 +112,8 @@ const styles = StyleSheet.create({
   },
   label: { fontSize: 13, fontWeight: '600' },
   icon: {
-    width: 32,
+    minWidth: 32,
+    paddingHorizontal: 6,
     height: 32,
     borderRadius: 8,
     alignItems: 'center',

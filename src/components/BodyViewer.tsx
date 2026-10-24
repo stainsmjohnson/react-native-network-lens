@@ -6,12 +6,13 @@ import { bodySize, stringifyJson } from '../utils/body';
 import { formatBytes } from '../utils/format';
 import JsonTreeView, { type JsonTreeHandle } from './JsonTree/JsonTreeView';
 import RawTextView from './RawTextView';
+import { cycleCodeFontScale, useCodeFontScale } from '../settings';
 import {
   ActionSheet,
   EmptyState,
+  IconButton,
   SearchInput,
   SegmentedControl,
-  TextButton,
 } from './ui';
 
 type ViewMode = 'tree' | 'raw';
@@ -60,6 +61,8 @@ const BodyViewer = ({
     value: unknown;
   } | null>(null);
   const treeRef = useRef<JsonTreeHandle>(null);
+  const [menuVisible, setMenuVisible] = useState(false);
+  const fontScale = useCodeFontScale();
 
   const effectiveMode: ViewMode = structured ? mode : 'raw';
 
@@ -122,31 +125,15 @@ const BodyViewer = ({
           </Text>
         )}
         <View style={styles.spacer} />
-        {effectiveMode === 'tree' && (
-          <>
-            <TextButton
-              label="Expand"
-              onPress={() => treeRef.current?.expandAll()}
-              style={styles.toolButton}
-            />
-            <TextButton
-              label="Collapse"
-              onPress={() => treeRef.current?.collapseAll()}
-              style={styles.toolButton}
-            />
-          </>
-        )}
-        {copyToClipboard && body.kind !== 'binary' && (
-          <TextButton
-            label="Copy"
-            onPress={() => copyToClipboard(body.text)}
-            style={styles.toolButton}
-          />
-        )}
-        <TextButton
-          label="Share"
-          onPress={() => share(body.text)}
-          style={styles.toolButton}
+        <IconButton
+          glyph="Aa"
+          accessibilityLabel={`Text size: ${fontScale}. Tap to change`}
+          onPress={cycleCodeFontScale}
+        />
+        <IconButton
+          glyph="⋮"
+          accessibilityLabel="More options"
+          onPress={() => setMenuVisible(true)}
         />
       </View>
       {body.kind !== 'binary' && (
@@ -194,6 +181,28 @@ const BodyViewer = ({
         )}
       </View>
       <ActionSheet
+        visible={menuVisible}
+        onClose={() => setMenuVisible(false)}
+        actions={[
+          ...(effectiveMode === 'tree'
+            ? [
+                {
+                  label: 'Expand all',
+                  onPress: () => treeRef.current?.expandAll(),
+                },
+                {
+                  label: 'Collapse all',
+                  onPress: () => treeRef.current?.collapseAll(),
+                },
+              ]
+            : []),
+          ...(copyToClipboard && body.kind !== 'binary'
+            ? [{ label: 'Copy', onPress: () => copyToClipboard(body.text) }]
+            : []),
+          { label: 'Share', onPress: () => share(body.text) },
+        ]}
+      />
+      <ActionSheet
         visible={nodeMenu !== null}
         onClose={() => setNodeMenu(null)}
         title={nodeMenu?.path}
@@ -238,8 +247,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingTop: 10,
   },
-  modeSwitch: { width: 130 },
-  toolButton: { marginLeft: 6 },
+  modeSwitch: { width: 140 },
   spacer: { flex: 1 },
   search: { marginHorizontal: 12, marginTop: 8 },
   meta: { fontSize: 12, flexShrink: 1 },

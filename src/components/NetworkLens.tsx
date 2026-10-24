@@ -5,7 +5,6 @@ import {
   useImperativeHandle,
   useMemo,
   useState,
-  type ReactNode,
 } from 'react';
 import { BackHandler, Share, StyleSheet, View } from 'react-native';
 import { setLensBackHandler } from '../backHandler';
@@ -40,8 +39,6 @@ export interface NetworkLensProps {
    * `copyToClipboard={Clipboard.setString}`.
    */
   copyToClipboard?: (text: string) => void;
-  /** Rendered above the request list's search bar (the overlay uses it for its title bar). */
-  header?: ReactNode;
 }
 
 export interface NetworkLensHandle {
@@ -58,7 +55,6 @@ const NetworkLens = forwardRef<NetworkLensHandle, NetworkLensProps>(
       compact = false,
       maxRows,
       copyToClipboard,
-      header,
     },
     ref
   ) {
@@ -71,7 +67,6 @@ const NetworkLens = forwardRef<NetworkLensHandle, NetworkLensProps>(
           compact={compact}
           maxRows={maxRows}
           copyToClipboard={copyToClipboard}
-          header={header}
         />
       </ThemeContext.Provider>
     );
@@ -79,13 +74,10 @@ const NetworkLens = forwardRef<NetworkLensHandle, NetworkLensProps>(
 );
 
 type InspectorProps = Required<Pick<NetworkLensProps, 'sort' | 'compact'>> &
-  Pick<NetworkLensProps, 'maxRows' | 'copyToClipboard' | 'header'>;
+  Pick<NetworkLensProps, 'maxRows' | 'copyToClipboard'>;
 
 const Inspector = forwardRef<NetworkLensHandle, InspectorProps>(
-  function InspectorInner(
-    { sort, compact, maxRows, copyToClipboard, header },
-    ref
-  ) {
+  function InspectorInner({ sort, compact, maxRows, copyToClipboard }, ref) {
     const theme = useTheme();
     const requests = useNetworkRequests();
     const loggingEnabled = useLoggerEnabled();
@@ -163,7 +155,6 @@ const Inspector = forwardRef<NetworkLensHandle, InspectorProps>(
             loggingEnabled={loggingEnabled}
             onPressItem={setSelectedId}
             menuActions={menuActions}
-            header={header}
           />
         )}
       </View>

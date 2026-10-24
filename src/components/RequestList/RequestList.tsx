@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState, type ReactNode } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { FlatList, Share, StyleSheet, Text, View } from 'react-native';
 import type NetworkRequest from '../../core/NetworkRequest';
 import { useTheme } from '../../theme';
@@ -30,8 +30,6 @@ interface Props {
   loggingEnabled: boolean;
   onPressItem: (id: string) => void;
   menuActions: ActionItem[];
-  /** Optional row rendered above the search bar (used by the overlay for title + close). */
-  header?: ReactNode;
 }
 
 const keyExtractor = (row: NetworkRequestRow) => row.id;
@@ -52,7 +50,6 @@ const RequestList = ({
   loggingEnabled,
   onPressItem,
   menuActions,
-  header,
 }: Props) => {
   const theme = useTheme();
   const [search, setSearch] = useState('');
@@ -134,7 +131,6 @@ const RequestList = ({
           },
         ]}
       >
-        {header}
         <View style={styles.searchRow}>
           <SearchInput
             value={search}

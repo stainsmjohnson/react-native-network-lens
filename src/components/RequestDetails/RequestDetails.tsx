@@ -18,7 +18,6 @@ import {
 } from '../../utils/format';
 import BodyViewer from '../BodyViewer';
 import {
-  IconButton,
   KeyValueList,
   Pill,
   Section,
@@ -77,6 +76,7 @@ const RequestDetails = ({ request, onClose, copyToClipboard }: Props) => {
         ]}
       >
         <View style={styles.headerRow}>
+          <TextButton label="‹ Back" onPress={onClose} style={styles.back} />
           <Pill
             label={request.method}
             color={methodColor(theme, request.method)}
@@ -94,11 +94,6 @@ const RequestDetails = ({ request, onClose, copyToClipboard }: Props) => {
           >
             {summary}
           </Text>
-          <IconButton
-            glyph="✕"
-            accessibilityLabel="Back to list"
-            onPress={onClose}
-          />
         </View>
         <Pressable
           onPress={() => setUrlExpanded((v) => !v)}
@@ -296,6 +291,7 @@ const styles = StyleSheet.create({
   },
   headerRow: { flexDirection: 'row', alignItems: 'center' },
   headerPill: { marginRight: 8 },
+  back: { marginRight: 10, paddingHorizontal: 8 },
   summary: { flex: 1, fontSize: 12, fontVariant: ['tabular-nums'] },
   url: { fontSize: 14, marginTop: 8, lineHeight: 19 },
   gql: { fontSize: 12, marginTop: 4, fontWeight: '600' },

@@ -8,6 +8,7 @@ import {
   useState,
 } from 'react';
 import { Pressable, StyleSheet, Text } from 'react-native';
+import { useCodeFont } from '../../settings';
 import { useTheme, type Theme } from '../../theme';
 import { splitHighlights } from '../../utils/search';
 import { CodeList } from '../CodeList';
@@ -58,6 +59,7 @@ const JsonTreeView = forwardRef<JsonTreeHandle, Props>(
     ref
   ) {
     const theme = useTheme();
+    const font = useCodeFont(theme);
     const [expanded, setExpanded] = useState<Set<string>>(() =>
       pathsToDepth(value, initialDepth)
     );
@@ -118,8 +120,8 @@ const JsonTreeView = forwardRef<JsonTreeHandle, Props>(
       let maxChars = 0;
       for (const row of rows)
         maxChars = Math.max(maxChars, rowCharCount(row, INDENT_CHARS));
-      return maxChars * theme.sizes.codeFontSize * 0.62 + 40;
-    }, [rows, theme.sizes.codeFontSize]);
+      return maxChars * font.charWidth + 40;
+    }, [rows, font.charWidth]);
 
     const toggle = useCallback((row: JsonRow) => {
       setExpanded((prev) => {
@@ -135,13 +137,14 @@ const JsonTreeView = forwardRef<JsonTreeHandle, Props>(
       });
     }, []);
 
-    const rowHeight = theme.sizes.codeLineHeight + 4;
+    const rowHeight = font.lineHeight + 4;
 
     const renderItem = useCallback(
       ({ item }: { item: JsonRow }) => (
         <TreeRow
           row={item}
           theme={theme}
+          font={font}
           query={query}
           matched={matchedPaths.has(item.path)}
           active={item.path === activePath}
@@ -152,6 +155,7 @@ const JsonTreeView = forwardRef<JsonTreeHandle, Props>(
       ),
       [
         theme,
+        font,
         query,
         matchedPaths,
         activePath,
@@ -180,6 +184,7 @@ const keyExtractor = (row: JsonRow) => row.path;
 const TreeRow = memo(function TreeRowInner({
   row,
   theme,
+  font,
   query,
   matched,
   active,
@@ -189,6 +194,7 @@ const TreeRow = memo(function TreeRowInner({
 }: {
   row: JsonRow;
   theme: Theme;
+  font: ReturnType<typeof useCodeFont>;
   query: string;
   matched: boolean;
   active: boolean;
@@ -198,8 +204,8 @@ const TreeRow = memo(function TreeRowInner({
 }) {
   const codeStyle = {
     fontFamily: theme.fonts.mono,
-    fontSize: theme.sizes.codeFontSize,
-    lineHeight: theme.sizes.codeLineHeight,
+    fontSize: font.fontSize,
+    lineHeight: font.lineHeight,
   };
   const valueColor = (() => {
     switch (row.type) {

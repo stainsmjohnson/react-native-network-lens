@@ -127,7 +127,6 @@ Other functions: `stopNetworkLogging()`, `isNetworkLoggingEnabled()`,
 | `compact`            | `boolean`                              | `false`      |
 | `maxRows`            | `number`                               |              |
 | `copyToClipboard`    | `(text: string) => void`               |              |
-| `header`             | `ReactNode` rendered above the search bar |           |
 
 A `ref` gives you `goBack(): boolean`, which returns from the details view to
 the list. Use it to wire your own back button or modal `onRequestClose`.
@@ -159,6 +158,12 @@ All `NetworkLens` props plus:
 - `useLoggerEnabled()`, `useLoggerPaused()`.
 - `JsonTreeView` is exported so you can reuse the collapsible JSON viewer
   elsewhere in your debug tooling.
+
+### Text size
+
+The **Aa** button in the Request/Response tabs cycles the code font between
+small, medium and large for the whole session. The base size comes from
+`theme.sizes.codeFontSize` (default 14), so you can also set it via the theme.
 
 ### Theming
 

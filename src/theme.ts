@@ -80,7 +80,7 @@ export const lightTheme: Theme = {
     onHighlight: '#1f2937',
   },
   fonts: { mono: mono ?? 'monospace' },
-  sizes: { codeFontSize: 13, codeLineHeight: 20 },
+  sizes: { codeFontSize: 14, codeLineHeight: 21 },
 };
 
 export const darkTheme: Theme = {
@@ -114,7 +114,7 @@ export const darkTheme: Theme = {
     onHighlight: '#fef3c7',
   },
   fonts: { mono: mono ?? 'monospace' },
-  sizes: { codeFontSize: 13, codeLineHeight: 20 },
+  sizes: { codeFontSize: 14, codeLineHeight: 21 },
 };
 
 export type ThemeInput = ThemeName | DeepPartial<Theme>;

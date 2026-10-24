@@ -11,15 +11,16 @@ import {
 } from 'react-native';
 import { useLoggerEnabled, useNetworkRequests } from '../hooks';
 import { ThemeContext, useTheme, type ThemeInput } from '../theme';
+
+const HIT_SLOP = { top: 8, bottom: 8, left: 8, right: 8 };
 import NetworkLens, {
   type NetworkLensHandle,
   type NetworkLensProps,
 } from './NetworkLens';
-import { IconButton } from './ui';
 
 export interface NetworkLensOverlayProps extends Omit<
   NetworkLensProps,
-  'enabled' | 'theme' | 'header'
+  'enabled' | 'theme'
 > {
   /**
    * Render nothing when `false`, e.g.
@@ -88,17 +89,6 @@ const Overlay = ({
     [position.endsWith('right') ? 'right' : 'left']: offset?.x ?? 16,
   };
 
-  const header = (
-    <View style={styles.header}>
-      <Text style={[styles.title, { color: t.colors.text }]}>{title}</Text>
-      <IconButton
-        glyph="✕"
-        accessibilityLabel="Close network inspector"
-        onPress={() => setOpen(false)}
-      />
-    </View>
-  );
-
   return (
     <>
       {!hideButton && (
@@ -135,12 +125,43 @@ const Overlay = ({
         }}
       >
         <View style={[styles.sheet, { backgroundColor: t.colors.surface }]}>
-          <NetworkLens
-            ref={lensRef}
-            {...lensProps}
-            theme={theme}
-            header={header}
-          />
+          <View
+            style={[
+              styles.header,
+              {
+                backgroundColor: t.colors.surface,
+                borderBottomColor: t.colors.border,
+              },
+            ]}
+          >
+            <View style={styles.headerSide} />
+            <Text
+              style={[styles.title, { color: t.colors.text }]}
+              numberOfLines={1}
+            >
+              {title}
+            </Text>
+            <View style={styles.headerSide}>
+              <Pressable
+                accessibilityRole="button"
+                accessibilityLabel="Close network inspector"
+                onPress={() => setOpen(false)}
+                hitSlop={HIT_SLOP}
+                style={({ pressed }) => [
+                  styles.close,
+                  { backgroundColor: t.colors.surfaceAlt },
+                  pressed && styles.pressed,
+                ]}
+              >
+                <Text
+                  style={[styles.closeGlyph, { color: t.colors.textMuted }]}
+                >
+                  ✕
+                </Text>
+              </Pressable>
+            </View>
+          </View>
+          <NetworkLens ref={lensRef} {...lensProps} theme={theme} />
         </View>
       </Modal>
     </>
@@ -175,13 +196,23 @@ const styles = StyleSheet.create({
     paddingTop: Platform.OS === 'android' ? (StatusBar.currentHeight ?? 0) : 0,
   },
   header: {
+    height: 52,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingLeft: 8,
-    paddingBottom: 6,
+    paddingHorizontal: 12,
+    borderBottomWidth: StyleSheet.hairlineWidth,
   },
-  title: { fontSize: 17, fontWeight: '700' },
+  headerSide: { width: 44, alignItems: 'flex-end', justifyContent: 'center' },
+  title: { flex: 1, textAlign: 'center', fontSize: 17, fontWeight: '600' },
+  close: {
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  closeGlyph: { fontSize: 15, fontWeight: '700' },
+  pressed: { opacity: 0.6 },
 });
 
 export default NetworkLensOverlay;

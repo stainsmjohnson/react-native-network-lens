@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { useCodeFont } from '../settings';
 import { useTheme, type Theme } from '../theme';
 import { findLineMatches, splitHighlights, toLines } from '../utils/search';
 import { CodeList } from './CodeList';
@@ -22,6 +23,7 @@ const RawTextView = ({
   onMatchCountChange,
 }: Props) => {
   const theme = useTheme();
+  const font = useCodeFont(theme);
   const lines = useMemo(() => toLines(text), [text]);
   const matches = useMemo(() => findLineMatches(lines, query), [lines, query]);
 
@@ -37,14 +39,14 @@ const RawTextView = ({
     matches[Math.min(activeMatch, Math.max(matches.length - 1, 0))]?.line;
 
   const gutterChars = String(lines.length).length;
-  const charWidth = theme.sizes.codeFontSize * 0.62;
+  const charWidth = font.charWidth;
   const contentWidth = useMemo(() => {
     let max = 0;
     for (const line of lines) if (line.length > max) max = line.length;
     return (max + gutterChars + 3) * charWidth + 32;
   }, [lines, gutterChars, charWidth]);
 
-  const rowHeight = theme.sizes.codeLineHeight;
+  const rowHeight = font.lineHeight;
 
   const renderItem = useCallback(
     ({ item, index }: { item: string; index: number }) => (
@@ -53,13 +55,14 @@ const RawTextView = ({
         index={index}
         gutterChars={gutterChars}
         theme={theme}
+        font={font}
         query={query}
         matched={matchedLines.has(index)}
         active={index === activeLine}
         height={rowHeight}
       />
     ),
-    [gutterChars, theme, query, matchedLines, activeLine, rowHeight]
+    [gutterChars, theme, font, query, matchedLines, activeLine, rowHeight]
   );
 
   return (
@@ -82,6 +85,7 @@ const Line = React.memo(function LineInner({
   index,
   gutterChars,
   theme,
+  font,
   query,
   matched,
   active,
@@ -91,6 +95,7 @@ const Line = React.memo(function LineInner({
   index: number;
   gutterChars: number;
   theme: Theme;
+  font: ReturnType<typeof useCodeFont>;
   query: string;
   matched: boolean;
   active: boolean;
@@ -98,8 +103,8 @@ const Line = React.memo(function LineInner({
 }) {
   const codeStyle = {
     fontFamily: theme.fonts.mono,
-    fontSize: theme.sizes.codeFontSize,
-    lineHeight: theme.sizes.codeLineHeight,
+    fontSize: font.fontSize,
+    lineHeight: font.lineHeight,
   };
   const segments = matched ? splitHighlights(text, query) : null;
   return (
@@ -120,7 +125,7 @@ const Line = React.memo(function LineInner({
           styles.gutter,
           {
             color: theme.colors.textMuted,
-            width: (gutterChars + 1) * theme.sizes.codeFontSize * 0.62 + 8,
+            width: (gutterChars + 1) * font.charWidth + 8,
           },
         ]}
       >

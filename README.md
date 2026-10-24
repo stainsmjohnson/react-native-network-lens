@@ -7,7 +7,6 @@
 
 <p align="center">
   <a href="https://www.npmjs.com/package/react-native-network-lens"><img alt="npm version" src="https://img.shields.io/npm/v/react-native-network-lens?color=2563eb" /></a>
-  <a href="https://www.npmjs.com/package/react-native-network-lens"><img alt="npm downloads" src="https://img.shields.io/npm/dm/react-native-network-lens" /></a>
   <a href="https://bundlephobia.com/package/react-native-network-lens"><img alt="bundle size" src="https://img.shields.io/bundlephobia/minzip/react-native-network-lens?label=min%2Bgzip" /></a>
   <a href="https://www.npmjs.com/package/react-native-network-lens?activeTab=dependencies"><img alt="dependencies: none" src="https://img.shields.io/badge/dependencies-none-16a34a" /></a>
   <a href="https://github.com/stainsmjohnson/react-native-network-lens/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/stainsmjohnson/react-native-network-lens/actions/workflows/ci.yml/badge.svg" /></a>

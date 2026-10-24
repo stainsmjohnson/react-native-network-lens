@@ -1,5 +1,15 @@
 # Changelog
 
+# [0.2.0](https://github.com/stainsmjohnson/react-native-network-lens/compare/v0.1.1...v0.2.0) (2026-10-24)
+
+### Bug Fixes
+
+* align the details header controls ([cf9e313](https://github.com/stainsmjohnson/react-native-network-lens/commit/cf9e31300620cc75e8ed87fbe209aa722d662289))
+
+### Features
+
+* text size control, overflow-safe viewer toolbar and standard sheet header ([620e619](https://github.com/stainsmjohnson/react-native-network-lens/commit/620e6192fbc509a404672881cc85f2fb902ff81b))
+
 ## [0.1.1](https://github.com/stainsmjohnson/react-native-network-lens/compare/v0.1.0...v0.1.1) (2026-10-23)
 
 ### Bug Fixes

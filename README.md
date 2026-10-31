@@ -16,7 +16,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/stainsmjohnson/react-native-network-lens/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/stainsmjohnson/react-native-network-lens?style=social&label=Star%20this%20project" /></a>
+  <a href="https://github.com/stainsmjohnson/react-native-network-lens"><img alt="GitHub stars" src="https://img.shields.io/github/stars/stainsmjohnson/react-native-network-lens?style=social&label=Star%20this%20project" /></a>
 </p>
 
 An in-app HTTP inspector for React Native that is actually usable on a phone

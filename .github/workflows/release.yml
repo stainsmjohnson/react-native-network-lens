@@ -1,0 +1,81 @@
+name: Release
+
+# Publishes to npm and creates the GitHub release whenever a `v*` tag is pushed.
+# The tag is created locally by `yarn release` (release-it), which bumps the
+# version, updates CHANGELOG.md and pushes the commit + tag. No npm token or
+# GitHub token is needed on the maintainer's machine:
+#   - npm auth uses OIDC trusted publishing (configure once on npmjs.com:
+#     package Settings -> Trusted Publisher -> GitHub Actions, workflow
+#     "release.yml"). Provenance attestations are generated automatically.
+#   - the GitHub release uses the workflow's own GITHUB_TOKEN.
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write # create the GitHub release
+  id-token: write # npm trusted publishing (OIDC)
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment: npm
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Setup
+        uses: ./.github/actions/setup
+
+      - name: Check that the tag matches package.json
+        run: |
+          TAG="${GITHUB_REF_NAME#v}"
+          VERSION="$(node -p "require('./package.json').version")"
+          if [ "$TAG" != "$VERSION" ]; then
+            echo "Tag v$TAG does not match package.json version $VERSION" >&2
+            exit 1
+          fi
+
+      - name: Lint, typecheck, test
+        run: |
+          yarn lint
+          yarn typecheck
+          yarn test --maxWorkers=2
+
+      - name: Build
+        run: yarn prepare
+
+      - name: Use an npm version that supports trusted publishing
+        run: npm install -g npm@latest && npm --version
+
+      - name: Publish to npm
+        run: npm publish --access public
+        env:
+          # Optional fallback for registries without OIDC: set an NPM_TOKEN secret.
+          # When unset, npm authenticates through the trusted publisher config.
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_CONFIG_REGISTRY: https://registry.npmjs.org
+
+      - name: Extract release notes from CHANGELOG.md
+        id: notes
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          node -e '
+            const fs = require("fs");
+            const [version] = process.argv.slice(1);
+            const log = fs.readFileSync("CHANGELOG.md", "utf8");
+            const re = new RegExp(`^##+ \\[?${version.replace(/\\./g, "\\\\.")}\\]?[^\\n]*\\n([\\s\\S]*?)(?=^##+ |\\Z)`, "m");
+            const match = log.match(re);
+            fs.writeFileSync("release-notes.md", (match ? match[1] : "See CHANGELOG.md.").trim() + "\n");
+          ' "$VERSION"
+          cat release-notes.md
+
+      - name: Create GitHub release
+        run: gh release create "$GITHUB_REF_NAME" --title "Release ${GITHUB_REF_NAME#v}" --notes-file release-notes.md --verify-tag
+        env:
+          GH_TOKEN: ${{ github.token }}

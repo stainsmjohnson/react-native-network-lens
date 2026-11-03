@@ -86,14 +86,39 @@ Our pre-commit hooks verify that your commit message matches this format when co
 
 ### Publishing to npm
 
-We use [release-it](https://github.com/release-it/release-it) to make it easier to publish new versions. It handles common tasks like bumping version based on semver, creating tags and releases etc.
+Releases are automated, and nothing is published from a laptop.
 
-To publish new versions, run the following:
+**Branching.** `main` is protected: every change arrives through a pull
+request with green CI, history stays linear (squash or rebase merges), and
+release tags (`v*`) cannot be moved or deleted. Work on short-lived branches
+such as `feat/request-pinning` or `fix/search-highlight`. The pull request
+title must follow [Conventional Commits](https://www.conventionalcommits.org)
+(`feat:`, `fix:`, `docs:`, `chore:` ...); a check enforces it, because the
+squash-merged title becomes the changelog entry and decides the next version
+(`fix` = patch, `feat` = minor, `feat!`/`BREAKING CHANGE` = major).
+
+**Cutting a release** (maintainers, from an up-to-date `main`):
 
 ```sh
 yarn release
 ```
 
+[release-it](https://github.com/release-it/release-it) runs lint, typecheck
+and tests, proposes the next version from the commits since the last tag,
+updates `CHANGELOG.md`, commits `chore: release x.y.z`, creates the `vx.y.z`
+tag and pushes both. That is all it does locally.
+
+Pushing the tag triggers the [Release workflow](.github/workflows/release.yml),
+which re-runs the checks, builds the package, publishes it to npm with
+provenance through [trusted publishing](https://docs.npmjs.com/trusted-publishers)
+(OIDC, so no npm token exists anywhere), and creates the GitHub release with
+the matching `CHANGELOG.md` section.
+
+One-time setup on npmjs.com before the first automated release: package
+**Settings → Trusted Publisher → GitHub Actions**, with repository
+`stainsmjohnson/react-native-network-lens`, workflow `release.yml` and
+environment `npm`. The configuration must complete its first publish within
+two days of being created, so do it right before running `yarn release`.
 
 ### Scripts
 

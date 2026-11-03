@@ -157,13 +157,15 @@
       "commitMessage": "chore: release ${version}",
       "tagName": "v${version}",
       "requireCleanWorkingDir": true,
-      "requireBranch": "main"
+      "requireBranch": "main",
+      "requireUpstream": true,
+      "push": true
     },
     "npm": {
-      "publish": true
+      "publish": false
     },
     "github": {
-      "release": true
+      "release": false
     },
     "plugins": {
       "@release-it/conventional-changelog": {

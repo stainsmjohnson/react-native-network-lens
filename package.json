@@ -1,7 +1,7 @@
 {
   "name": "react-native-network-lens",
   "version": "0.2.0",
-  "description": "In-app HTTP network inspector for React Native with a tabbed request viewer, collapsible JSON tree, search and zero dependencies",
+  "description": "Network logger and HTTP inspector for React Native. In-app request viewer with tabbed headers/request/response details, collapsible JSON tree, search and cURL/HAR export. Zero dependencies, works in release builds. An alternative to react-native-network-logger.",
   "main": "./lib/module/index.js",
   "types": "./lib/typescript/src/index.d.ts",
   "exports": {
@@ -33,19 +33,27 @@
   "keywords": [
     "react-native",
     "network",
+    "network-logger",
+    "network-inspector",
+    "network-monitor",
+    "http",
+    "http-logger",
+    "request-logger",
+    "api-debugger",
     "logger",
     "inspector",
-    "http",
+    "debugger",
+    "devtools",
     "xhr",
     "fetch",
     "axios",
-    "debug",
-    "devtools",
+    "graphql",
     "json-viewer",
+    "har",
+    "curl",
+    "expo",
     "ios",
-    "android",
-    "network-logger",
-    "network-lens"
+    "android"
   ],
   "repository": {
     "type": "git",

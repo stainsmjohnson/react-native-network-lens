@@ -19,8 +19,8 @@
   <a href="https://github.com/stainsmjohnson/react-native-network-lens"><img alt="GitHub stars" src="https://img.shields.io/github/stars/stainsmjohnson/react-native-network-lens?style=social&label=Star%20this%20project" /></a>
 </p>
 
-An in-app HTTP inspector for React Native that is actually usable on a phone
-screen. Drop in one component, fire your requests, tap the floating button and
+A network logger and HTTP inspector for React Native that is actually usable on
+a phone screen. Drop in one component, fire your requests, tap the floating button and
 read JSON like you would in Chrome DevTools: expand the object you care about,
 collapse the noise, search for a key, scroll sideways instead of fighting
 wrapped text.
